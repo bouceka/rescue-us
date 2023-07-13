@@ -1,0 +1,25 @@
+version: "3.4"
+services:
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Password123"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    restart: always
+    volumes:
+      - './drive:/var/opt/mssql'
+  mongodb_container:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - './mongodb_data_container:/data/db'
+    restart: always
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
