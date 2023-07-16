@@ -10,7 +10,7 @@ namespace AnimalService.Entities
     public class Animal
     {
         public Guid Id { get; set; }
-        [Key]
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PublicId { get; set; }
         public int Age { get; set; }
