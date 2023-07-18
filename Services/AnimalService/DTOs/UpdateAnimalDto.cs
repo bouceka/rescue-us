@@ -18,7 +18,7 @@ namespace AnimalService.DTOs
         public string Color { get; set; }
         public string Description { get; set; }
         public string CoverImageUrl { get; set; }
-        public Status Status { get; set; }
+        public string Status { get; set; }
 
     }
 }
