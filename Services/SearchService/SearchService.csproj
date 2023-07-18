@@ -6,13 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.16" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.9" />
     <PackageReference Include="MongoDB.Entities" Version="22.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Events\Events.csproj" />
   </ItemGroup>
 
 </Project>
