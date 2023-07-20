@@ -1,5 +1,6 @@
 using AnimalService.Entities;
 using Microsoft.EntityFrameworkCore;
+using MassTransit;
 
 namespace AnimalService.Data
 {
@@ -13,6 +14,10 @@ namespace AnimalService.Data
         {
             base.OnModelCreating(builder);
 
+            // add in memory outbox https://masstransit.io/documentation/patterns/in-memory-outbox
+            builder.AddInboxStateEntity();
+            builder.AddOutboxMessageEntity();
+            builder.AddOutboxStateEntity();
 
             builder.Entity<Animal>().HasData(new Animal
             {
