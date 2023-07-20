@@ -35,13 +35,13 @@ namespace AnimalService.Controllers
             return _mapper.Map<List<AnimalDto>>(animals);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Animal>> GetAnimalById(Guid id)
+        public async Task<ActionResult<AnimalDto>> GetAnimalById(Guid id)
         {
-            var found = await _context.Animals.FirstOrDefaultAsync(x => x.Id == id);
+            var foundAnimal = await _context.Animals.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (found == null) return NotFound();
+            if (foundAnimal == null) return NotFound();
 
-            return found;
+            return _mapper.Map<AnimalDto>(foundAnimal);
         }
         [HttpPost]
         public async Task<ActionResult<AnimalDto>> CreateAnimal(CreateAnimalDto createAnimalDto)
@@ -99,7 +99,7 @@ namespace AnimalService.Controllers
             _context.Animals.Remove(animal);
 
             await _publishEndpoint.Publish<AnimalDeleted>(new { Id = animal.Id.ToString() });
-            
+
             var result = await _context.SaveChangesAsync() > 0;
 
             if (!result) return BadRequest("Could not update DB");
