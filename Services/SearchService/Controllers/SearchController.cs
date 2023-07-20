@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Entities;
 using SearchService.Helpers;
-using SearchService.Model;
 
 namespace SearchService.Controllers
 {

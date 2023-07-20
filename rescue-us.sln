@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimalService", "Services\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService", "Services\SearchService\SearchService.csproj", "{F2BEC940-BBD5-4C35-ACE5-771B368AB5FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events", "Services\Events\Events.csproj", "{217C04F3-9FB5-46DD-9D8F-DF53BF0662DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F2BEC940-BBD5-4C35-ACE5-771B368AB5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2BEC940-BBD5-4C35-ACE5-771B368AB5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2BEC940-BBD5-4C35-ACE5-771B368AB5FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{217C04F3-9FB5-46DD-9D8F-DF53BF0662DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{217C04F3-9FB5-46DD-9D8F-DF53BF0662DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{217C04F3-9FB5-46DD-9D8F-DF53BF0662DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{217C04F3-9FB5-46DD-9D8F-DF53BF0662DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
