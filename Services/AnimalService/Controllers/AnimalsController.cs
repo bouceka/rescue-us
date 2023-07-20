@@ -2,6 +2,8 @@ using AnimalService.Data;
 using AnimalService.DTOs;
 using AnimalService.Entities;
 using AutoMapper;
+using Events;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +14,11 @@ namespace AnimalService.Controllers
     {
         private readonly AnimalDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public AnimalsController(AnimalDbContext context, IMapper mapper)
+        public AnimalsController(AnimalDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
+            _publishEndpoint = publishEndpoint;
             _mapper = mapper;
             _context = context;
         }
@@ -45,12 +49,16 @@ namespace AnimalService.Controllers
 
             _context.Animals.Add(animal);
 
+            var newAnimal = _mapper.Map<AnimalDto>(animal);
+
+            await _publishEndpoint.Publish(_mapper.Map<AnimalCreated>(newAnimal));
+
             var result = await _context.SaveChangesAsync() > 0;
 
             if (!result) return BadRequest("Could not save changes to the DB");
 
             return CreatedAtAction(nameof(GetAnimalById),
-                new { animal.Id }, animal);
+                new { animal.Id }, newAnimal);
         }
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAnimal(Guid id, UpdateAnimalDto updateAnimalDto)
@@ -72,6 +80,8 @@ namespace AnimalService.Controllers
             animal.Age = updateAnimalDto.Age == 0 ? animal.Age : updateAnimalDto.Age;
             animal.UpdatedAt = DateTime.UtcNow;
 
+            await _publishEndpoint.Publish(_mapper.Map<AnimalUpdated>(animal));
+
             var result = await _context.SaveChangesAsync() > 0;
 
             if (result) return Ok();
@@ -87,6 +97,8 @@ namespace AnimalService.Controllers
 
             _context.Animals.Remove(animal);
 
+            await _publishEndpoint.Publish<AnimalDeleted>(new { Id = animal.Id.ToString() });
+            
             var result = await _context.SaveChangesAsync() > 0;
 
             if (!result) return BadRequest("Could not update DB");
