@@ -1,6 +1,7 @@
 using AnimalService.Data;
 using AnimalService.DTOs;
 using AnimalService.Entities;
+using AnimalService.Helpers;
 using AutoMapper;
 using Events;
 using MassTransit;
@@ -70,7 +71,7 @@ namespace AnimalService.Controllers
 
             animal.Description = updateAnimalDto.Description ?? animal.Description;
             animal.Name = updateAnimalDto.Name ?? animal.Name;
-            animal.Status = Enum.IsDefined(typeof(Status), updateAnimalDto.Status) ? (Status)Enum.Parse(typeof(Status), updateAnimalDto.Status) : animal.Status;
+            animal.Status = updateAnimalDto.Status != null ? EnumHelper.EnumParse(updateAnimalDto.Status, animal.Status) : animal.Status;
             animal.Breed = updateAnimalDto.Breed ?? animal.Breed;
             animal.CoverImageUrl = updateAnimalDto.CoverImageUrl ?? animal.CoverImageUrl;
             animal.Color = updateAnimalDto.Color ?? animal.Color;
