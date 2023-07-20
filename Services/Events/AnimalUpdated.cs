@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Events
-{
+namespace Events;
+
     public class AnimalUpdated
     {
         public string Id { get; set; }
@@ -19,4 +15,3 @@ namespace Events
         public string CoverImageUrl { get; set; }
         public string Status { get; set; }
     }
-}
