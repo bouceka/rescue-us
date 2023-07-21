@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "4f2076f6-4266-4875-88ab-9bc9acbd0def",
+		"name": "Rescue Us",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "7855356"
+	},
+	"item": [
+		{
+			"name": "Get All Animals",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:7001/api/animals"
+			},
+			"response": []
+		},
+		{
+			"name": "Search Animal",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7002/api/search?pageSize=12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"api",
+						"search"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Animal by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:7001/api/animals/6d67f915-3988-4390-d353-08db842b6b67"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Animal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Buttercup",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "Cat",
+							"type": "text"
+						},
+						{
+							"key": "breed",
+							"value": "Maycoon",
+							"type": "text"
+						},
+						{
+							"key": "sex",
+							"value": "Female",
+							"type": "text"
+						},
+						{
+							"key": "color",
+							"value": "Grey",
+							"type": "text"
+						},
+						{
+							"key": "weight",
+							"value": "18",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Lorem ipsum",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "Available",
+							"type": "text"
+						},
+						{
+							"key": "coverImageUrl",
+							"value": "https://placedog.net/200",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:7001/api/animals"
+			},
+			"response": []
+		},
+		{
+			"name": "Put Animal",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "10",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "Puggie",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "Dog",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "breed",
+							"value": "Pug",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "sex",
+							"value": "Male",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "color",
+							"value": "Brown",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "weight",
+							"value": "12",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "Lorem ipsum",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "Missing",
+							"type": "text"
+						},
+						{
+							"key": "coverImageUrl",
+							"value": "https://placedog.net/200",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "Type",
+							"value": "Dog",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://localhost:7001/api/animals/6d67f915-3988-4390-d353-08db842b6b67"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Animals",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:7001/api/animals/2b299f85-cb7a-4dea-81a7-08db88aaa930"
+			},
+			"response": []
+		}
+	]
+}
