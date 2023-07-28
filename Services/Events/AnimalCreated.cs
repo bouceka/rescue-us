@@ -3,6 +3,7 @@ namespace Events;
 public class AnimalCreated
 {
     public Guid Id { get; set; }
+    public int PublicId { get; set; }
     public int Age { get; set; }
     public string Name { get; set; }
     public string Type { get; set; }
@@ -13,5 +14,5 @@ public class AnimalCreated
     public string Description { get; set; }
     public string CoverImageUrl { get; set; }
     public string Status { get; set; }
-    public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
 }
