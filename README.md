@@ -11,7 +11,7 @@ When it comes to implementing microservices, .Net Core is a widely preferred opt
 # Project overview
 For this project I prepared a project that will focus on adoption animals. This project is going to be primarily a walkthrough tutorial how to build a large scale app implementing .Net, NextJs, and React Native. 
 
-![Illustrative Image](https://res.cloudinary.com/ahoy-house/image/upload/c_fill,w_200/v1/github/rgqmp6xy3aovzjydkddo)
+![Illustrative Image](https://res.cloudinary.com/ahoy-house/image/upload/f_auto,q_auto/v1/github/vkcdz78xmmly9s7eldhu)
 ## Navigation
 
 [Postman Collection](https://github.com/bouceka/rescue-us/blob/main/Rescue%20Us.postman_collection.json)
