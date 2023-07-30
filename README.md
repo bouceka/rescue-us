@@ -6,7 +6,7 @@ The concept of microservices architecture has become increasingly popular in rec
 
 Each individual microservice is responsible for a specific business function and can be developed and deployed independently from other services. This approach offers several advantages, such as enhanced flexibility, scalability, and resilience, along with simplified maintenance and testing procedures.
 
-When it comes to implementing microservices, .Net Core is a widely preferred option. This preference is due to .Net Core's lightweight, event-driven architecture, which allows it to handle numerous simultaneous connections effectively. In this blog post, we will delve into the fundamentals of microservices architecture using .Net Core and provide some illustrative code examples.
+When it comes to implementing microservices, .Net Core is a widely preferred option. In this blog post, we will delve into the fundamentals of microservices architecture using .Net Core and provide some illustrative code examples.
 
 ## Useful links
 
@@ -139,7 +139,7 @@ We are going to use [Code First Migration](https://learn.microsoft.com/en-us/ef/
 
 The following step is to create a DB context class that is going to use DbContext from Entity Framework that creates an abstraction of our database. Notice, we also add some seed initial data and [outbox](https://masstransit.io/documentation/patterns/transactional-outbox).
 
-## program.cs
+## data/AnimalDbContext.cs
 
 ```cs
 namespace AnimalService.Data
@@ -273,7 +273,7 @@ public ProfileMapper(){
 }
 ```
 
-Finally, we have to provide this service to our project file.
+Finally, we can  provide  service to our program file.
 
 ### Program.cs
 
@@ -529,7 +529,10 @@ This service is going to be fairly simple. We will receive events from RabbitMQ 
 
 `MongoDB.Entities`
 
+
 ## SearchParams.cs
+
+We will create an object that will help us with searching through our database. Notice, that we also implement a simple pagination.
 
 ```cs
 public class SearchParams
@@ -543,6 +546,8 @@ public class SearchParams
     public string FilterBy { get; set; }
 }
 ```
+
+The next step is to create a MongoDB entity for our Search Service. Notice, we do not need an Id property. We drive this Animal class with MongoDB Entity and that will provide ids for our animal.
 
 ## Data/Animal.cs
 
