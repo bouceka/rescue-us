@@ -14,7 +14,7 @@ When it comes to implementing microservices, .Net Core is a widely preferred opt
 
 [GitHub Repository](https://github.com/bouceka/rescue-us)
 
-# App overview
+## App overview
 
 For this blog post I prepared a project that will focus on adoption animals. This project is going to be primarily a walkthrough tutorial how to build a scalable app implementing .Net, NextJs, React Native, Docker, and more.
 
@@ -42,7 +42,7 @@ dotnet new webapi -o SearchService
 
 For our development, we will use Docker Compose where we will spin our database and RabbitMQ. We can spin docker-compose with the following command `docker-compose -f docker-compose.yml up`.
 
-## docker-compose.yml
+### docker-compose.yml
 
 ```yml
 version: '3.4'
@@ -72,7 +72,7 @@ services:
       - 15672:15672
 ```
 
-# Animal Service
+## Animal Service
 
 Before we start coding anything we need to install packages that are necessary for our service. With NuGet Package Gallery we can install these packages:
 
@@ -90,7 +90,7 @@ Before we start coding anything we need to install packages that are necessary f
 
 Once we have all packages ready we can start shaping our service. Because I decided to do this tutorial about animal adoption, we need to start with Entity. It is an object that we are going to store in our database.
 
-## Entities/Animal.cs
+### Entities/Animal.cs
 
 ```cs
 namespace AnimalService.Entities
@@ -117,7 +117,7 @@ namespace AnimalService.Entities
 }
 ```
 
-## Entities/Status.cs
+### Entities/Status.cs
 
 ```cs
 namespace AnimalService.Entities
@@ -139,7 +139,7 @@ We are going to use [Code First Migration](https://learn.microsoft.com/en-us/ef/
 
 The following step is to create a DB context class that is going to use DbContext from Entity Framework that creates an abstraction of our database. Notice, we also add some seed initial data and [outbox](https://masstransit.io/documentation/patterns/transactional-outbox).
 
-## data/AnimalDbContext.cs
+### Data/AnimalDbContext.cs
 
 ```cs
 namespace AnimalService.Data
@@ -201,7 +201,7 @@ namespace AnimalService.Data
 
 Once we have our DB context class ready we have to specify a connection string for our service. For this example, let's put the connect string into `appsettings.Development.json` right behind `Logging` brackets.
 
-## appsettings.Development.json
+### appsettings.Development.json
 
 ```json
   "ConnectionStrings": {
@@ -214,7 +214,7 @@ Once we have our DB context class ready we have to specify a connection string f
 
 Logically I don't want to have this tutorial too long, we will include our DB Context and our RabbitMQ to the `program.cs` at once.
 
-## program.cs
+### program.cs
 
 ```cs
 // Connect to MSSQL with DB Context
@@ -255,6 +255,7 @@ Now we have to generate an entity migration. Remember we have to install `dotnet
 
 ```
 dotnet ef migrations add InitialMigration -o Data/Migrations
+
 dotnet ef database update
 ```
 
@@ -262,7 +263,7 @@ dotnet ef database update
 
 Now we are going to create mapper profiles that will help us to map our RabbitMQ events and DTOs. The AutoMapper will help us with mapping the classes once we move further in our app.
 
-### [ProfileMapper.cs](https://github.com/bouceka/rescue-us/blob/main/Services/AnimalService/Helpers/ProfileMapper.cs)
+### Helpers/[ProfileMapper.cs](https://github.com/bouceka/rescue-us/blob/main/Services/AnimalService/Helpers/ProfileMapper.cs)
 
 ```cs
 public ProfileMapper(){
@@ -285,7 +286,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 We have to specify what shapes our app requires and what shape of data it is going to return from our AnimalController which we will create shortly.
 
-### AnimalDTO, CreateDTO, and UpdateDto
+### DTOs/AnimalDTO, CreateDTO, and UpdateDto
 
 ```cs
 public class AnimalDto
@@ -353,7 +354,7 @@ public class AnimalDto
 
 In the last part of our Animal service, we have to create a controller where we will query and edit our data. Also, every time we change the data we publish an event that goes to the event bus (RabbitMQ). Notice publishing the event classes with `_publishEndpoint`.
 
-### AnimalsController.cs
+### Controllers/AnimalsController.cs
 
 ```cs
 namespace AnimalService.Controllers
@@ -458,7 +459,7 @@ namespace AnimalService.Controllers
 }
 ```
 
-# Events
+## Events
 
 We will create an empty solution that will contain our events that will consume our RabbitMq broker.
 
@@ -515,11 +516,11 @@ public class AnimalDeleted
 }
 ```
 
-# Search Service
+## Search Service
 
 This service is going to be fairly simple. We will receive events from RabbitMQ and it will mimic our database from Animal Service and we will query the data in MongoDB.
 
-## Packages
+### Packages
 
 `AutoMapper.Extensions.Microsoft.DependencyInjection`
 
@@ -530,7 +531,7 @@ This service is going to be fairly simple. We will receive events from RabbitMQ 
 `MongoDB.Entities`
 
 
-## SearchParams.cs
+### Helpers/SearchParams.cs
 
 We will create an object that will help us with searching through our database. Notice, that we also implement a simple pagination.
 
@@ -549,7 +550,7 @@ public class SearchParams
 
 The next step is to create a MongoDB entity for our Search Service. Notice, we do not need an Id property. We drive this Animal class with MongoDB Entity and that will provide ids for our animal.
 
-## Data/Animal.cs
+### Data/Animal.cs
 
 ```cs
 
@@ -571,7 +572,7 @@ public class Animal : Entity
 }
 ```
 
-## Services/AnimalServiceHttpClient.cs
+### Services/AnimalServiceHttpClient.cs
 
 This service we will have http client, so our service can call our Animal Service.
 
@@ -595,7 +596,7 @@ public class AnimalServiceHttpClient
 }
 ```
 
-## DbInitializer.cs
+### Data/DbInitializer.cs
 
 Now we have to create DB initializer that will create a collection of Animal class named `SearchDb` and will synchronously receive data from Animal Service and store it in the the database.
 
@@ -629,7 +630,7 @@ public class DbInitializer
 }
 ```
 
-# Program.cs
+### Program.cs
 
 Also, we have to include our RabbitMQ, Http service, Mapper for this service as well so our Search Service can work as we planned.
 
@@ -679,11 +680,11 @@ static IAsyncPolicy<HttpResponseMessage> GetPolicy()
         .WaitAndRetryForeverAsync(_ => TimeSpan.FromSeconds(3));
 ```
 
-# Consumers
+## Consumers
 
 Consumers will play a crucial role within our service. Our consumers will consume data from RabbitMQ, read the payload and mutate the data in our MongoDB.
 
-## AnimalCreatedConsumer.cs
+### Consumers/AnimalCreatedConsumer.cs
 
 ```cs
 public class AnimalCreatedConsumer : IConsumer<AnimalCreated>
@@ -705,7 +706,7 @@ public class AnimalCreatedConsumer : IConsumer<AnimalCreated>
 }
 ```
 
-## AnimalCreatedConsumer.cs
+### Consumers/AnimalCreatedConsumer.cs
 
 ```cs
 public class AnimalCreatedConsumer : IConsumer<AnimalCreated>
@@ -727,7 +728,7 @@ public class AnimalCreatedConsumer : IConsumer<AnimalCreated>
 }
 ```
 
-## AnimalDeletedConsumer.cs
+### Consumers/AnimalDeletedConsumer.cs
 
 ```cs
 public class AnimalDeletedConsumer : IConsumer<AnimalDeleted>
@@ -745,7 +746,7 @@ public class AnimalDeletedConsumer : IConsumer<AnimalDeleted>
 }
 ```
 
-## AnimalUpdatedConsumer.cs
+### Consumers/AnimalUpdatedConsumer.cs
 
 ```cs
 public class AnimalUpdatedConsumer : IConsumer<AnimalUpdated>
@@ -784,11 +785,11 @@ public class AnimalUpdatedConsumer : IConsumer<AnimalUpdated>
 }
 ```
 
-# Mapper
+## Mapper
 
 Similarly to our Animal Service, we will create a mapper class and will include event classes we will receive from RabbitMQ.
 
-## ProfileMapper.cs
+### Helpers/ProfileMapper.cs
 
 ```cs
 public class ProfileMapper : Profile
@@ -802,11 +803,11 @@ public class ProfileMapper : Profile
 }
 ```
 
-# Controller
+## Controller
 
 Finally, we will create a controller that will provide and endpoint `http://localhost:7002/api/search` that will allows to query our data. Our endpoint will allows to sort, filter, and paginate through the data.
 
-## SearchController.cs
+### Controllers/SearchController.cs
 
 ```cs
 [ApiController]
@@ -868,7 +869,7 @@ public class SearchController : ControllerBase
 }
 ```
 
-# Final thoughts
+## Final thoughts
 
 In this blog post, we've introduced the concept of microservices architecture and illustrated the process of constructing a basic application using .Net and RabbitMQ. We developed two microservices: one to mutate animal data and a second one for searching through the animal data.
 
