@@ -1,16 +1,13 @@
 version: "3.4"
 services:
-  sqlserver:
-    image: "mcr.microsoft.com/mssql/server:2022-latest"
+  postgres:
+    image: postgres
     environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "Password123"
-      MSSQL_PID: "Express"
+      - POSTGRES_PASSWORD=postgrespw
     ports:
-      - "1433:1433"
-    restart: always
+      - 5432:5432
     volumes:
-      - './drive:/var/opt/mssql'
+      - /var/lib/postresql/data
   mongodb_container:
     image: mongo:latest
     ports:
