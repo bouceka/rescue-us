@@ -14,11 +14,11 @@ When it comes to implementing microservices, .Net Core is a widely preferred opt
 
 [GitHub Repository](https://github.com/bouceka/rescue-us)
 
-## App overview
+## App Overview
 
-For this blog post I prepared a project that will focus on adoption animals. This project is going to be primarily a walkthrough tutorial how to build a scalable app implementing .Net, NextJs, React Native, Docker, and more.
+For this blog post, I prepared a project that will focus on adoption animals. This project is going to be primarily a walkthrough tutorial on how to build a scalable app implementing .Net, NextJs, React Native, Docker, and more.
 
-However, for this post we will be focusing on two simple services and how to handle [asynchronous communication](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/architect-microservice-container-applications/asynchronous-message-based-communication#asynchronous-event-driven-communication) between them with RabbitMQ. We will follow [Database per Service](https://microservices.io/patterns/data/database-per-service.html) pattern to make our services more independent. Also, it allows us to create services with various databases (MSSQL and MongoDB). 
+However, for this post, we will be focusing on two simple services and how to handle [asynchronous communication](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/architect-microservice-container-applications/asynchronous-message-based-communication#asynchronous-event-driven-communication) between them with RabbitMQ. We will follow [Database per Service](https://microservices.io/patterns/data/database-per-service.html) pattern to make our services more independent. Also, it allows us to create services with various databases (MSSQL and MongoDB). 
 
 ![Illustrative Image](https://res.cloudinary.com/ahoy-house/image/upload/f_auto,q_auto/v1/github/vkcdz78xmmly9s7eldhu)
 
@@ -274,7 +274,7 @@ public ProfileMapper(){
 }
 ```
 
-Finally, we can  provide  service to our program file.
+Finally, we can provide service to our program file.
 
 ### Program.cs
 
@@ -682,7 +682,7 @@ static IAsyncPolicy<HttpResponseMessage> GetPolicy()
 
 ## Consumers
 
-Consumers will play a crucial role within our service. Our consumers will consume data from RabbitMQ, read the payload and mutate the data in our MongoDB.
+Consumers will play a crucial role in our service. Our consumers will consume data from RabbitMQ, read the payload and mutate the data in our MongoDB.
 
 ### Consumers/AnimalCreatedConsumer.cs
 
