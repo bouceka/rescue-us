@@ -10,8 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnimalService.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
-    public class AnimalsController : Controller
+    public class AnimalsController : ControllerBase
     {
         private readonly AnimalDbContext _context;
         private readonly IMapper _mapper;
@@ -28,7 +29,7 @@ namespace AnimalService.Controllers
         [HttpGet]
         public async Task<ActionResult<List<AnimalDto>>> GetAllAnimals()
         {
-            var animals = await _context.Animals
+            var animals = await _context.Animals.Include(x => x.Address)
             .OrderBy(x => x.UpdatedAt)
             .ToListAsync();
 
@@ -37,7 +38,7 @@ namespace AnimalService.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AnimalDto>> GetAnimalById(Guid id)
         {
-            var foundAnimal = await _context.Animals.FirstOrDefaultAsync(x => x.Id == id);
+            var foundAnimal = await _context.Animals.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id);
 
             if (foundAnimal == null) return NotFound();
 
@@ -65,7 +66,7 @@ namespace AnimalService.Controllers
         public async Task<ActionResult> UpdateAnimal(Guid id, UpdateAnimalDto updateAnimalDto)
         {
 
-            var animal = await _context.Animals
+            var animal = await _context.Animals.Include(x => x.Address)
     .FirstOrDefaultAsync(x => x.Id == id);
             if (animal == null) return NotFound();
 
@@ -79,6 +80,12 @@ namespace AnimalService.Controllers
             animal.CoverImageUrl = updateAnimalDto.CoverImageUrl ?? animal.CoverImageUrl;
             animal.Weight = updateAnimalDto.Weight == 0 ? animal.Weight : updateAnimalDto.Weight;
             animal.Age = updateAnimalDto.Age == 0 ? animal.Age : updateAnimalDto.Age;
+            animal.Address.City = updateAnimalDto.City ?? animal.Address.City;
+            animal.Address.Address1 = updateAnimalDto.AddressOne ?? animal.Address.Address1;
+            animal.Address.Address2 = updateAnimalDto.AddressTwo ?? animal.Address.Address2;
+            animal.Address.Country = updateAnimalDto.Country ?? animal.Address.Country;
+            animal.Address.PostalCode = updateAnimalDto.PostalCode ?? animal.Address.PostalCode;
+            animal.Address.State = updateAnimalDto.State ?? animal.Address.State;
             animal.UpdatedAt = DateTime.UtcNow;
 
             await _publishEndpoint.Publish(_mapper.Map<AnimalUpdated>(animal));
