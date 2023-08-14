@@ -2,6 +2,7 @@
 using AnimalService.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AnimalDbContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -43,14 +44,32 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("customPolicy", b =>
+    {
+        b.AllowAnyHeader()
+            .AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:8081");
+    });
+});
+
 var app = builder.Build();
 
-
-app.UseHttpsRedirection();
+app.UseCors("customPolicy");
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+try
+{
+    DbInitializer.InitDb(app);
+}
+catch (Exception e)
+{
+
+    Console.WriteLine(e);
+}
 
 app.Run();
 
