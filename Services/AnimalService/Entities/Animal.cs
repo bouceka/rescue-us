@@ -23,6 +23,7 @@ namespace AnimalService.Entities
         public string Description { get; set; }
         public string CoverImageUrl { get; set; }
         public Status Status { get; set; }
+        public Address Address { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
