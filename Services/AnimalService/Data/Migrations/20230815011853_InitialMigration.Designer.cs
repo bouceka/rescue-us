@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnimalService.Data.Migrations
 {
     [DbContext(typeof(AnimalDbContext))]
-    [Migration("20230814170940_InitialMigration")]
+    [Migration("20230815011853_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -88,10 +88,7 @@ namespace AnimalService.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("PublicId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PublicId"));
 
                     b.Property<string>("Sex")
                         .HasColumnType("text");

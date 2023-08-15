@@ -7,7 +7,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - /var/lib/postresql/data
+      - ./postgres-data:/var/lib/postgresql/data
   mongodb_container:
     image: mongo:latest
     ports:

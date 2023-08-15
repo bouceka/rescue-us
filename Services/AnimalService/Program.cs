@@ -26,7 +26,7 @@ builder.Services.AddMassTransit(x =>
     {
         o.QueryDelay = TimeSpan.FromSeconds(10);
 
-        o.UseSqlServer();
+        o.UsePostgres();
         o.UseBusOutbox();
     });
 

@@ -20,7 +20,14 @@ namespace AnimalService.Data
             builder.AddOutboxMessageEntity();
             builder.AddOutboxStateEntity();
 
-            
+            // builder.HasSequence<int>("PublicId_seq")
+            //       .StartsAt(1000)
+            //       .IncrementsBy(1);
+
+            // builder.Entity<Animal>()
+            //             .Property(o => o.PublicId)
+            //             .HasDefaultValueSql("nextval('\"PublicId_seq\"')");
+
         }
 
     }

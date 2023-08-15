@@ -405,5 +405,5 @@ ASALocalRun/
 .localhistory/
 
 .vscode
-drive   
+postgres-data   
 mongodb_data_container

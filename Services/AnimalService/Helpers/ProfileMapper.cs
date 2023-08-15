@@ -15,11 +15,18 @@ namespace AnimalService.Helpers
         {
             CreateMap<Animal, AnimalDto>().IncludeMembers(x => x.Address);
             CreateMap<AddressDto, AnimalDto>();
+
             CreateMap<Address, AddressDto>();
             CreateMap<Address, AnimalDto>();
+            
+            // From flat structure into nested
             CreateMap<CreateAnimalDto, Animal>().ForMember(d => d.Address, o => o.MapFrom(s => s));
             CreateMap<CreateAnimalDto, Address>();
-            CreateMap<AnimalDto, AnimalCreated>();
+
+            // Publish it in flat structure
+            CreateMap<AnimalDto, AnimalCreated>().IncludeMembers(x => x.Address);;
+            CreateMap<AddressDto, AnimalCreated>();
+
             CreateMap<Animal, AnimalUpdated>();
         }
     }

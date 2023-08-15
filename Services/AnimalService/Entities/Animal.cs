@@ -9,10 +9,9 @@ namespace AnimalService.Entities
 {
     public class Animal
     {
+        [Key]
         public Guid Id { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PublicId { get; set; }
+        public int PublicId { get; set; } =  GenerateRandom7DigitNumber();
         public int Age { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
@@ -26,5 +25,15 @@ namespace AnimalService.Entities
         public Address Address { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        private static readonly Random _random = new();
+
+        private static int GenerateRandom7DigitNumber()
+        {
+            int min = 1000000; // Smallest 7-digit number
+            int max = 9999999; // Largest 7-digit number
+
+            return _random.Next(min, max + 1);
+        }
     }
 }

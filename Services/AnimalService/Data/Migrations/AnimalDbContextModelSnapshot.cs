@@ -85,10 +85,7 @@ namespace AnimalService.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("PublicId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PublicId"));
 
                     b.Property<string>("Sex")
                         .HasColumnType("text");

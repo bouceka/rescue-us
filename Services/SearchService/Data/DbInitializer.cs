@@ -15,7 +15,6 @@ namespace SearchService.Data
 
             await DB.Index<Animal>()
                 .Key(x => x.Type, KeyType.Text)
-                .Key(x => x.Breed, KeyType.Text)
                 .Key(x => x.Sex, KeyType.Text)
                 .CreateAsync();
 

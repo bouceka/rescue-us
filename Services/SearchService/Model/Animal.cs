@@ -1,4 +1,5 @@
 using MongoDB.Entities;
+using SearchService.Model;
 
 namespace SearchService;
 public class Animal : Entity
@@ -16,4 +17,5 @@ public class Animal : Entity
     public string Status { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public Address Address { get; set; }
 }
