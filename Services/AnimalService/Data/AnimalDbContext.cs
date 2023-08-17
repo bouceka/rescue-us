@@ -6,9 +6,15 @@ namespace AnimalService.Data
 {
     public class AnimalDbContext : DbContext
     {
+        public AnimalDbContext()
+        {
+        }
+
         public AnimalDbContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Address> Address { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -19,14 +25,6 @@ namespace AnimalService.Data
             builder.AddInboxStateEntity();
             builder.AddOutboxMessageEntity();
             builder.AddOutboxStateEntity();
-
-            // builder.HasSequence<int>("PublicId_seq")
-            //       .StartsAt(1000)
-            //       .IncrementsBy(1);
-
-            // builder.Entity<Animal>()
-            //             .Property(o => o.PublicId)
-            //             .HasDefaultValueSql("nextval('\"PublicId_seq\"')");
 
         }
 

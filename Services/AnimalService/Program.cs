@@ -1,8 +1,8 @@
-﻿using AnimalService.Consumers;
-using AnimalService.Data;
+﻿using AnimalService.Data;
+using AnimalService.Interfaces;
+using AnimalService.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +53,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddSingleton<IImageService, ImageService>();
+
 var app = builder.Build();
 
 app.UseCors("customPolicy");
@@ -67,7 +69,6 @@ try
 }
 catch (Exception e)
 {
-
     Console.WriteLine(e);
 }
 

@@ -1,5 +1,8 @@
 using AnimalService.Entities;
+using AnimalService.Helpers;
 using Microsoft.EntityFrameworkCore;
+using shortid;
+using shortid.Configuration;
 
 namespace AnimalService.Data;
 
@@ -27,17 +30,17 @@ public class DbInitializer
            new Animal
             {
                 Id = Guid.Parse("afbee524-5972-4075-8800-7d1f9d7b0a0c"),
-                PublicId = 1,
+                PublicId = GlobalHelper.GenerateShortId(),
                 Name = "Dee Dee",
                 Type = "Dog",
                 Description = "lorem ipsum",
                 Breed = "Double doodle",
                 Sex = "Female",
                 Color = "White",
+                Slug= GlobalHelper.GenerateSlug("Dee Dee"),
                 Weight = 10,
                 Age = 2,
                 Status = Status.Available,
-                CoverImageUrl = "https://placedog.net/500",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 Address = new Address
@@ -50,22 +53,33 @@ public class DbInitializer
                     Country = "Canada",
                     State = "BC",
                     PostalCode = "V4R 3D1",
-                }
+                },
+                Images= new List<Image>{
+                    new Image
+                    {
+                    Id = Guid.NewGuid(),
+                 Url = "https://placedog.net/500",
+                IsMain = true,
+                 PublicId = Guid.NewGuid().ToString()
+                 }
+                 }
+
+
             },
             new Animal
             {
                 Id = Guid.Parse("6d67f915-3988-4390-d353-08db842b6b67"),
-                PublicId = 2,
+                PublicId = GlobalHelper.GenerateShortId(),
                 Name = "Buttercup",
                 Type = "Cat",
                 Description = "lorem ipsum",
                 Breed = "Bengal cat",
                 Sex = "Male",
                 Color = "Beige",
+                Slug = GlobalHelper.GenerateSlug("Buttercup"),
                 Weight = 5,
                 Age = 5,
                 Status = Status.Available,
-                CoverImageUrl = "https://placekitten.com/200/200",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 Address = new Address
@@ -78,7 +92,16 @@ public class DbInitializer
                     Country = "Canada",
                     State = "BC",
                     PostalCode = "V4R 3D1",
-                }
+                },
+                 Images= new List<Image>{
+                    new Image
+                    {
+                    Id = Guid.NewGuid(),
+                     Url = "https://placekitten.com/200/300",
+                    IsMain = true,
+                     PublicId = Guid.NewGuid().ToString()
+                 }
+                 }
             }
         };
 

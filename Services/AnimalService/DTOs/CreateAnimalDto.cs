@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using AnimalService.Entities;
+using AnimalService.Helpers;
 
 namespace AnimalService.DTOs
 {
@@ -15,8 +12,9 @@ namespace AnimalService.DTOs
         public string Name { get; set; }
         [Required]
         public string Type { get; set; }
+        public string PublicId { get; set; } =  GlobalHelper.GenerateShortId();
         [Required]
-        public string Breed { get; set; }
+        public string Breed { get; set; } 
         [Required]
         public string Sex { get; set; }
         [Required]
