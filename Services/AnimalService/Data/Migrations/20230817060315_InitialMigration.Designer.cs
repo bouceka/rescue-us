@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnimalService.Data.Migrations
 {
     [DbContext(typeof(AnimalDbContext))]
-    [Migration("20230815011853_InitialMigration")]
+    [Migration("20230817060315_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -75,9 +75,6 @@ namespace AnimalService.Data.Migrations
                     b.Property<string>("Color")
                         .HasColumnType("text");
 
-                    b.Property<string>("CoverImageUrl")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -87,10 +84,13 @@ namespace AnimalService.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int>("PublicId")
-                        .HasColumnType("integer");
+                    b.Property<string>("PublicId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Sex")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Slug")
                         .HasColumnType("text");
 
                     b.Property<int>("Status")
@@ -108,6 +108,31 @@ namespace AnimalService.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Animals");
+                });
+
+            modelBuilder.Entity("AnimalService.Entities.Image", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AnimalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
@@ -285,9 +310,22 @@ namespace AnimalService.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AnimalService.Entities.Image", b =>
+                {
+                    b.HasOne("AnimalService.Entities.Animal", "Animal")
+                        .WithMany("Images")
+                        .HasForeignKey("AnimalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Animal");
+                });
+
             modelBuilder.Entity("AnimalService.Entities.Animal", b =>
                 {
                     b.Navigation("Address");
+
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }
