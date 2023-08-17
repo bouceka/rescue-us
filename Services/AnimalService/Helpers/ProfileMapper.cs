@@ -22,10 +22,13 @@ namespace AnimalService.Helpers
             CreateMap<CreateAnimalDto, Address>();
 
             // Publish it in flat structure
-            CreateMap<AnimalDto, AnimalCreated>().IncludeMembers(x => x.Address); ;
+            CreateMap<AnimalDto, AnimalCreated>().IncludeMembers(x => x.Address).IncludeMembers(x => x.Images);
             CreateMap<AddressDto, AnimalCreated>();
+            CreateMap<List<ImageDto>, AnimalCreated>();
 
-            CreateMap<Animal, AnimalUpdated>();
+            CreateMap<Animal, AnimalUpdated>().IncludeMembers(x => x.Address).IncludeMembers(x => x.Images);
+            CreateMap<Address, AnimalUpdated>();
+            CreateMap<List<Image>, AnimalUpdated>();
 
 
             CreateMap<List<Image>, AnimalDto>();

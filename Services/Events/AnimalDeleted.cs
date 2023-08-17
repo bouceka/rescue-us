@@ -1,4 +1,3 @@
-
 namespace Events;
 
 public class AnimalDeleted

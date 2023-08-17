@@ -8,8 +8,9 @@ public class ProfileMapper : Profile
     public ProfileMapper()
     {
 
-        CreateMap<AnimalCreated, Animal>().ForMember(d => d.Address, o => o.MapFrom(s => s));
+        CreateMap<AnimalCreated, Animal>().IncludeMembers(x => x.Address).IncludeMembers(x => x.Images);
         CreateMap<AnimalCreated, Address>();
-        CreateMap<AnimalUpdated, Animal>().ForMember(d => d.Address, o => o.MapFrom(s => s));
+        CreateMap<AnimalCreated, Image>();
+        CreateMap<AnimalUpdated, Animal>().IncludeMembers(x => x.Address).IncludeMembers(x=>x.Images);
     }
 }

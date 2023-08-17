@@ -4,7 +4,7 @@ using SearchService.Model;
 namespace SearchService;
 public class Animal : Entity
 {
-    public int PublicId { get; set; }
+    public string PublicId { get; set; }
     public int Age { get; set; }
     public string Name { get; set; }
     public string Type { get; set; }
@@ -18,4 +18,5 @@ public class Animal : Entity
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public Address Address { get; set; }
+    public List<Image> Images { get; set; }
 }
