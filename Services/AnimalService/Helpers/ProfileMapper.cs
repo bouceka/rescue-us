@@ -3,6 +3,7 @@ using AnimalService.Entities;
 using AutoMapper;
 using Events;
 using AnimalService.Helpers;
+using Events.Models;
 
 namespace AnimalService.Helpers
 {
@@ -17,17 +18,19 @@ namespace AnimalService.Helpers
             CreateMap<Address, AddressDto>();
             CreateMap<Address, AnimalDto>();
 
-            // From flat structure into nested
+            // From flat structure into nested structure
             CreateMap<CreateAnimalDto, Animal>().ForMember(d => d.Address, o => o.MapFrom(s => s)).ForMember(x => x.Slug, opt => opt.MapFrom(animal => $"{GlobalHelper.GenerateSlug(animal.Name)}-{animal.PublicId}"));
             CreateMap<CreateAnimalDto, Address>();
 
-            // Publish it in flat structure
+            // Publish it in nested structure
             CreateMap<AnimalDto, AnimalCreated>().IncludeMembers(x => x.Address).IncludeMembers(x => x.Images);
             CreateMap<AddressDto, AnimalCreated>();
+            CreateMap<AddressDto, EventAddress>();
             CreateMap<List<ImageDto>, AnimalCreated>();
 
             CreateMap<Animal, AnimalUpdated>().IncludeMembers(x => x.Address).IncludeMembers(x => x.Images);
-            CreateMap<Address, AnimalUpdated>();
+            CreateMap<Address, EventAddress>();
+            CreateMap<Image, EventImage>();
             CreateMap<List<Image>, AnimalUpdated>();
 
 

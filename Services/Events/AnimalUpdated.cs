@@ -17,6 +17,6 @@ public class AnimalUpdated
     public string CoverImageUrl { get; set; }
     public string Status { get; set; }
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
-    public Address Address { get; set; }
-    public List<Image> Images { get; set; }
+    public EventAddress Address { get; set; }
+    public List<EventImage> Images { get; set; }
 }

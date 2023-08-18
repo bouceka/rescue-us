@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AnimalService.Entities
@@ -5,6 +6,8 @@ namespace AnimalService.Entities
     [Table("Images")]
     public class Image
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public string Url { get; set; }
         public bool IsMain { get; set; }

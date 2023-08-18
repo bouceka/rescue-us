@@ -128,16 +128,24 @@ namespace AnimalService.Controllers
 
             var image = new Image
             {
+                Id = Guid.NewGuid(),
                 Url = result.SecureUrl.AbsoluteUri,
-                PublicId = result.PublicId
+                PublicId = result.PublicId,
+                AnimalId = animalId,
             };
 
             if (animal.Images.Count == 0) image.IsMain = true;
 
+            // Add new image to the existing animal
             animal.Images.Add(image);
+            // Update time
+            animal.UpdatedAt = DateTime.UtcNow;
 
+            // Publish our events to RabbitMQ
+            await _publishEndpoint.Publish(_mapper.Map<AnimalUpdated>(animal));
 
-            var complete = await _context.SaveChangesAsync() > 0;
+            // Save changes to the database
+            var complete =  _context.SaveChanges() > 0;
 
             if (complete)
             {
@@ -149,14 +157,14 @@ namespace AnimalService.Controllers
         }
 
         [HttpPut("set-main-image")]
-        public async Task<ActionResult> SetMainImage([FromForm] Guid imageId, [FromForm] Guid animalId)
+        public async Task<ActionResult> SetMainImage([FromForm] string publicId, [FromForm] Guid animalId)
         {
             var animal = await _context.Animals.Include(x => x.Images)
     .FirstOrDefaultAsync(x => x.Id == animalId);
 
             if (animal == null) return NotFound("Animal not found");
 
-            var image = animal.Images.FirstOrDefault(x => x.Id == imageId);
+            var image = animal.Images.FirstOrDefault(x => x.PublicId == publicId);
 
             if (image == null) return NotFound("Image not found");
 
@@ -165,6 +173,10 @@ namespace AnimalService.Controllers
             if (currentMain != null) currentMain.IsMain = false;
 
             image.IsMain = true;
+
+            animal.UpdatedAt = DateTime.UtcNow;
+
+            await _publishEndpoint.Publish(_mapper.Map<AnimalUpdated>(animal));
 
             var complete = await _context.SaveChangesAsync() > 0;
 
@@ -206,6 +218,11 @@ namespace AnimalService.Controllers
             }
 
             _context.Images.Remove(image); // Mark the image for deletion
+
+            animal.UpdatedAt = DateTime.UtcNow;
+
+            await _publishEndpoint.Publish(_mapper.Map<AnimalUpdated>(animal));
+
             var complete = await _context.SaveChangesAsync() > 0;
 
             if (complete) return Ok();

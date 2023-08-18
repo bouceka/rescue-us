@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Events.Models
 {
 
-    public class Image
+    public class EventImage
     {
         public string Id { get; set; }
         public string Url { get; set; }

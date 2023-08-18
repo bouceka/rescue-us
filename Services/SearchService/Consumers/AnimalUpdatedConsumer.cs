@@ -17,7 +17,7 @@ public class AnimalUpdatedConsumer : IConsumer<AnimalUpdated>
     {
         Console.WriteLine("Consuming animal update " + animalUpdated.Message.Id);
 
-        var animal = _mapper.Map<Animal>(animalUpdated.Message);
+        var receivedAnimal = _mapper.Map<Animal>(animalUpdated.Message);
 
         var result = await DB.Update<Animal>().Match(animal => animal.ID == animalUpdated.Message.Id).ModifyOnly(
             animal => new
@@ -32,8 +32,10 @@ public class AnimalUpdatedConsumer : IConsumer<AnimalUpdated>
                 animal.Type,
                 animal.CoverImageUrl,
                 animal.UpdatedAt,
+                animal.Address,
+                animal.Images
 
-            }, animal).ExecuteAsync();
+            }, receivedAnimal).ExecuteAsync();
         if (!result.IsAcknowledged)
             throw new MessageException(typeof(AnimalUpdated), "Problem updating mongodb");
     }

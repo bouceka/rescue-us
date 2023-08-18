@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Events.Models
 {
-    public class Address
+    public class EventAddress
     {
         public string City { get; set; }
         public string Address1 { get; set; }
