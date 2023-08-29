@@ -1,6 +1,6 @@
 # Build Microservices Project with .NET Core and RabbitMQ
 
-![Project image](https://res.cloudinary.com/ahoy-house/image/upload/f_auto,q_auto/v1/github/hjl7mdpbnrgtnomzajpk)
+![Project image](https://res.cloudinary.com/boucekdev/image/upload/f_auto,q_auto/v1/github/hjl7mdpbnrgtnomzajpk)
 
 The concept of microservices architecture has become increasingly popular in recent times as a contemporary method for constructing large and intricate applications. Instead of creating a single, extensive codebase for an application (known as a monolithic approach), microservices architecture involves breaking down the application into smaller, autonomous services that interact with each other through APIs.
 
